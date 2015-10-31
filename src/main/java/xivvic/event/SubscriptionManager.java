@@ -3,12 +3,14 @@ package xivvic.event;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SubscriptionManager
 {
-	private final static Logger LOG = Logger.getLogger(SubscriptionManager.class.getName());
+	private final static Logger LOG = LoggerFactory.getLogger(SubscriptionManager.class.getName());
 
 	
 	private final Map<String, Subscription>                 subscriptions = new HashMap<>();

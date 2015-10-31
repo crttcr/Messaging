@@ -11,7 +11,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import xivvic.util.concurrent.CompositeRunnable;
 /**
@@ -26,7 +28,7 @@ import xivvic.util.concurrent.CompositeRunnable;
 public class CommandProcessorImpl
 	implements CommandProcessor
 {
-	private final static Logger LOG = Logger.getLogger(CommandProcessorImpl.class.getName());
+	private final static Logger LOG = LoggerFactory.getLogger(CommandProcessorImpl.class.getName());
 
 	/**
 	 * This single thread pool exists to process commands when they have completed executed.
@@ -79,14 +81,14 @@ public class CommandProcessorImpl
 		if (command == null)
 		{
 			String msg = String.format("null provided where valid command expected.  Ignore.");
-			LOG.warning(msg);
+			LOG.warn(msg);
 			return CommandStatus.REJECTED;
 		}
 		
 		if (command.status() != CommandStatus.CREATED)
 		{
 			String msg = String.format("Command not in CREATED state.  REJECTED.");
-			LOG.warning(msg);
+			LOG.warn(msg);
 			command.setStatus(CommandStatus.REJECTED);
 			return CommandStatus.REJECTED;
 		}
@@ -95,7 +97,7 @@ public class CommandProcessorImpl
 		if (id == null)
 		{
 			String msg = String.format("Commands cannot have null ID.  Ignore.");
-			LOG.warning(msg);
+			LOG.warn(msg);
 			command.setStatus(CommandStatus.REJECTED);
 			return CommandStatus.REJECTED;
 		}
@@ -104,7 +106,7 @@ public class CommandProcessorImpl
 		if (exists)
 		{
 			String msg = String.format("Command with ID [%s] already exists.  Reject.");
-			LOG.warning(msg);
+			LOG.warn(msg);
 			command.setStatus(CommandStatus.REJECTED);
 			return CommandStatus.REJECTED;
 		}
@@ -119,7 +121,7 @@ public class CommandProcessorImpl
 		else
 		{
 			String msg = String.format("Failure to launch [%s].", command);
-			LOG.warning(msg);
+			LOG.warn(msg);
 			return CommandStatus.REJECTED;
 		}
 
@@ -144,7 +146,7 @@ public class CommandProcessorImpl
 		if (! is_ok)
 		{
 			String msg = String.format("Command [%s] cannot be cancelled from state [%s]", id, from);
-			LOG.warning(msg);
+			LOG.warn(msg);
 		}
 		
 		return is_ok;
@@ -156,7 +158,7 @@ public class CommandProcessorImpl
 //		if (id == null)
 //		{
 //			String msg = String.format("Looking up a null id is really pointless.");
-//			LOG.warning(msg);
+//			LOG.warn(msg);
 //			return null;
 //		}
 //
@@ -164,7 +166,7 @@ public class CommandProcessorImpl
 //		if (future == null)
 //		{
 //			String msg = String.format("Failed to find future for id=[%s]", id);
-//			LOG.warning(msg);
+//			LOG.warn(msg);
 //			return null;
 //		}
 //		
@@ -216,7 +218,7 @@ public class CommandProcessorImpl
 		if (intent == null)
 		{
 			String msg = String.format("Refusing to dispatch command with no intent.");
-			LOG.warning(msg);
+			LOG.warn(msg);
 			return false;
 		}
 		
@@ -224,7 +226,7 @@ public class CommandProcessorImpl
 		if (handler == null)
 		{
 			String msg = String.format("Failed to retrieve a handler for intent [%s]. No action.", intent);
-			LOG.warning(msg);
+			LOG.warn(msg);
 			c.setStatus(CommandStatus.FAILED);
 			return false;
 		}

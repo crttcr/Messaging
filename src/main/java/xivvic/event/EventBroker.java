@@ -9,14 +9,16 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EventBroker
 {
 	public static final String TOPIC_COMMAND_SHUTDOWN = "eventbroker.command.shutdown"; 
 	public static final String TOPIC_COMMAND_PURGE    = "eventbroker.command.purge"; 
 
-	private final static Logger LOG = Logger.getLogger(EventBroker.class.getName());
+	private final static Logger LOG = LoggerFactory.getLogger(EventBroker.class.getName());
 
 	
 	private ScheduledExecutorService                             executor = null;
@@ -42,14 +44,14 @@ public class EventBroker
 			if (! executor.isShutdown())
 			{
 				String msg = "Request to start publishing events with functioning publication thread";
-				LOG.warning(msg);
+				LOG.warn(msg);
 				return false;
 			}
 				
 			if (! executor.isTerminated())
 			{
 				String msg = "Executor has been shutdown, but not all tasks have completed.";
-				LOG.warning(msg);
+				LOG.warn(msg);
 				return false;
 			}
 		}
@@ -73,21 +75,21 @@ public class EventBroker
 		if (executor == null)
 		{
 			String msg = "Request to stop event publication when there is no active publication";
-			LOG.warning(msg);
+			LOG.warn(msg);
 			return false;
 		}
 			
 		if (executor.isTerminated())
 		{
 			String msg = "Request to stop event publication when termination already occurred";
-			LOG.warning(msg);
+			LOG.warn(msg);
 			return false;
 		}
 				
 		if (executor.isShutdown())
 		{
 			String msg = "Request to stop publishing when Executor has been shutdown, but not all tasks have completed.";
-			LOG.warning(msg);
+			LOG.warn(msg);
 			return false;
 		}
 		
@@ -99,7 +101,7 @@ public class EventBroker
 		catch (InterruptedException e)
 		{
 			String msg = "Termination interrupted: " + e;
-			LOG.warning(msg);
+			LOG.warn(msg);
 		}
 
       executor = null;
@@ -219,7 +221,7 @@ public class EventBroker
 			if (count > 0)
 			{
 				String msg = "Shutdown command receive in message queue.  Purging " + count + " messages.";
-				LOG.warning(msg);
+				LOG.warn(msg);
 			}
 			readyToPublish.clear();
 		};
@@ -271,7 +273,7 @@ public class EventBroker
 			catch (Exception e)
 			{
 				String msg = "Exception thrown by callback method: " + e.getLocalizedMessage();
-				LOG.warning(msg);
+				LOG.warn(msg);
 			}
 		}
 	}
