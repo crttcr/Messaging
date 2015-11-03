@@ -34,7 +34,7 @@ public class CommandProcessorImpl
 	 * This single thread pool exists to process commands when they have completed executed.
 	 * 
 	 */
-	private final ScheduledExecutorService           harvest_thread = Executors.newScheduledThreadPool(1);
+	private final ScheduledExecutorService harvest_thread = Executors.newScheduledThreadPool(1);
 	
 	/**
 	 * This background processing pool executes the commands that are presented to this processor.
