@@ -10,5 +10,6 @@ public interface EventMetadata
 
 	public LocalTime publishedAt();
 	
-
+	public EventType type();
+	
 }

@@ -9,22 +9,26 @@ public abstract class EventMetadataBase
 	implements EventMetadata
 {
 
-	abstract public String id();
+	public abstract String id();
+
+	public abstract EventType type();
 
 	
 	@Nullable
-	abstract public String correlationId();
+	public abstract String correlationId();
 
-	abstract public LocalTime publishedAt();
+	public abstract LocalTime publishedAt();
 	
 	
 	@AutoValue.Builder
-	abstract static class Builder
+	public abstract static class Builder
 	{
-		abstract EventMetadataBase  build();
-		abstract Builder id(String id);
-		abstract Builder correlationId(String cid);
-		abstract Builder publishedAt(LocalTime time);
+		public abstract Builder id(String id);
+		public abstract Builder type(EventType type);
+		public abstract Builder correlationId(String cid);
+		public abstract Builder publishedAt(LocalTime time);
+
+		public abstract EventMetadataBase  build();
 	}
 
 	public static Builder builder()

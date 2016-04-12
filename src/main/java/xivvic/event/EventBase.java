@@ -8,21 +8,22 @@ import com.google.auto.value.AutoValue;
 public abstract class EventBase
 	implements Event
 {
-
 	abstract public EventMetadata metadata();
 
+	@Nullable
 	abstract public Object payload();
 
 	@Nullable
 	abstract public Map<String, Object> userHeaders();
 	
 	@AutoValue.Builder
-	abstract static class Builder
+	public abstract static class Builder
 	{
-		abstract EventBase  build();
-		abstract Builder metadata(EventMetadata metadata);
-		abstract Builder userHeaders(Map<String, Object> map);
-		abstract Builder payload(Object payload);
+		public abstract Builder metadata(EventMetadata metadata);
+		public abstract Builder userHeaders(Map<String, Object> map);
+		public abstract Builder payload(Object payload);
+
+		public abstract EventBase  build();
 	}
 
 	public static Builder builder()
