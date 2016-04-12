@@ -5,13 +5,31 @@
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
 
+/** 
+ * This closure configuration allows me to publish the contents of
+ * of this project to a jar. 
+ * 
+ * TODO: Figure out how to have this published to my local repository
+ * 
+ */
 
+publishing {
+	publications {
+		 mavenJava(MavenPublication) {
+			  groupId 'xivvic'
+			  artifactId 'messaging'
+			  from components.java
+		 }
+	}
+}
 // Declare where to find the dependencies of your project
 //
 repositories 
 {
     mavenCentral()
+	 mavenLocal()
 }
 
 // Declare the dependencies for your production and test code
